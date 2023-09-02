@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-        <title>Aplicaciones de Internet</title>
-        <meta charset="utf-8">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-    </head>
+    <title>Aplicaciones de Internet</title>
+    <meta charset="utf-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+</head>
 <body>
     <div class="container">
         <div class="row">
@@ -18,28 +18,76 @@
                         <th>Apellido</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Daniel</td>
-                        <td>Ortiz</td>
-                    </tr>
+                <tbody id="tablaDatos">
                 </tbody>
-                </table>
+            </table>
         </div>
         <div class="row">
-            <form method="POST" action="#" >
-              <div class="mb-3">
-                <label class="form-label">Nombre</label>
-                <input type="text" class="form-control" name="nombre">
-              </div>
-              <div class="mb-3">
-                <label class="form-label">Apellido</label>
-                <input type="test" class="form-control" name="apellido">
-              </div>
-              <button type="submit" class="btn btn-primary">Agregar</button>
+            <form id="formulario1" method="post" action="index.html">
+                <div class="mb-3">
+                    <label class="form-label">Nombre</label>
+                    <input type="text" class="form-control" name="nombre">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Apellido</label>
+                    <input type="text" class="form-control" name="apellido">
+                </div>
+                <button type="submit" class="btn btn-primary">Agregar</button>
             </form>
+            <script>
+                const formulario = document.querySelector("#formulario1");
+                const tablaDatos = document.querySelector("#tablaDatos");
+                let id = 1;
+
+                cargarDatos();
+
+                formulario.addEventListener('submit', evento => {
+                    evento.preventDefault();
+                    const nombre = document.querySelector("input[name='nombre']").value;
+                    const apellido = document.querySelector("input[name='apellido']").value;
+
+                    if (nombre === '' || apellido === '') {
+                        alert('Ingrese los datos');
+                    } else {
+                        const fila = document.createElement('tr');
+                        fila.innerHTML = `
+                        <td>${id}</td>
+                        <td>${nombre}</td>
+                        <td>${apellido}</td>`;
+                        tablaDatos.appendChild(fila);
+
+                        guardarDatos(id, nombre, apellido);
+
+                        document.querySelector("input[name='nombre']").value = '';
+                        document.querySelector("input[name='apellido']").value = '';
+
+                        id++;
+                    }
+                });
+
+                function guardarDatos(id, nombre, apellido) {
+                    const datos = JSON.parse(localStorage.getItem('datos')) || [];
+                    datos.push({ id, nombre, apellido });
+                    localStorage.setItem('datos', JSON.stringify(datos));
+                }
+
+                function cargarDatos() {
+                    const datos = JSON.parse(localStorage.getItem('datos')) || [];
+                    datos.forEach(dato => {
+                        const fila = document.createElement('tr');
+                        fila.innerHTML = `<td>${dato.id}</td><td>${dato.nombre}</td><td>${dato.apellido}</td>`;
+                        tablaDatos.appendChild(fila);
+
+                        if (dato.id >= id) {
+                            id = dato.id + 1;
+                        }
+                    });
+                }
+            </script>
         </div>
     </div>
 </body>
 </html>
+
+
+
