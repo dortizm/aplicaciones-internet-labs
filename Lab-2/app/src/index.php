@@ -7,25 +7,43 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
     </head>
 <body>
+<?php
+ echo "hola";
+?>
     <div class="container">
         <div class="row">
             <h1>Aplicaciones de Internet</h1>
-            <table id="tabla1" class="table table-striped">
+            <table class="table table-striped">
                 <thead>
-                    <tr>
-                        <th>id</th>
-                        <th>Nombre</th>
-                        <th>Apellido</th>
-                    </tr>
+                <tr>
+                    <th></th>
+                    <th>id</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Daniel</td>
-                        <td>Ortiz</td>
-                    </tr>
-                </tbody>
-                </table>
+                <?php
+
+                $conn = mysqli_connect('db', 'root', 'test', "dbname");
+
+                $query = 'SELECT * From Person';
+                $result = mysqli_query($conn, $query);
+                $cont =1;
+
+                while($value = $result->fetch_array(MYSQLI_ASSOC)){
+                    echo '<tr>';
+                    echo '<td><a href="#"><span class="glyphicon glyphicon-search"></span></a></td>';
+                    foreach($value as $element){
+                        echo '<td>' . $element . '</td>';
+                    }
+                    $cont = $cont +1;
+                    echo '</tr>';
+                }
+
+                $result->close();
+                mysqli_close($conn);
+                ?>
+            </table>
         </div>
 
         <div class="row">
