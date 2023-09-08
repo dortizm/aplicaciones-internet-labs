@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <title>Registro</title>
+</head>
+<body>
+  <h1>Registro</h1>
+  <form action="" method="post">
+    <input type="text" name="nombre" placeholder="Nombre">
+    <input type="text" name="apellido" placeholder="Apellido">
+    <input type="submit" value="Enviar">
+  </form>
+
+  <div id="datos-formulario">
+    <h2>Datos del formulario</h2>
+    <table id="usuarios">
+      <tr><td>Nombre</td><td>Apellido</td></tr>
+    </table>
+  </div>
+
+  <script>
+    // Capturar los datos del formulario
+    function capturarDatosFormulario(e) {
+      var nombre = document.querySelector("input[name='nombre']").value;
+      var apellido = document.querySelector("input[name='apellido']").value;
+
+      //texto que es el html de una fila de la tabla
+      var row = '<tr><td>'+nombre+'</td><td>'+apellido+'</td></tr>';
+
+      var table = document.getElementById('usuarios');
+
+      var actual = table.innerHTML;
+
+      table.innerHTML = actual + row;
+
+
+      e.preventDefault();
+      return false;
+    }
+
+    // Al enviar el formulario
+    document.querySelector("form").addEventListener("submit", capturarDatosFormulario);
+  </script>
+</body>
+</html>
