@@ -32,5 +32,19 @@
             </table>
         </div>
     </div>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Titulo</th>
+          </tr>
+        </thead>
+        <tbody>
+         {% for valor in valores%}
+         <tr>
+            <td>{{valor.titleText.text}}</td>  
+        </tr>
+         {%endfor%}
+        </tbody>
+      </table>
 </body>
 </html>
