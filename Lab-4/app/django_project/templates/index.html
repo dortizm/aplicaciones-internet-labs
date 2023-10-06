@@ -12,39 +12,16 @@
         <div class="row">
             <img src="{% static 'images/userena.svg' %}" class="rounded" style="width:200px"/>
             <h1>Aplicaciones de Internet</h1>
-            <h3>Asignaturas</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <td>Nombre</td>
-                        <td>Código</td>
-                        <td>Acción</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                    {% for course in courses %}                   
-                        <td>{{ course.name }}</td>
-                        <td>{{ course.code }}</td>
-                    {% endfor %}
-                    </tr>
-                </tbody>
-            </table>
+            
+      {% for valor in valores%}
+      <div class="card" style="width: 18rem;">
+        <img class="card-img-top" src="{{valor.poster.url}}" alt="Card image cap">
+        <div class="card-body">
+          <h5 class="card-title">{{valor.title}}</h5>
+          <p class="card-text">{{valor.description}}</p>
+          <!--a href="#" class="btn btn-primary">Go somewhere</a-->
         </div>
-    </div>
-    <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">Titulo</th>
-          </tr>
-        </thead>
-        <tbody>
-         {% for valor in valores%}
-         <tr>
-            <td>{{valor.titleText.text}}</td>  
-        </tr>
-         {%endfor%}
-        </tbody>
-      </table>
+      </div>
+      {%endfor%}
 </body>
 </html>
