@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <title>Crear/Editar Asignatura</title>
+</head>
+<body>
+    <h1>Crear/Editar Asignatura</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="codigo">Código:</label>
+        <input type="text" name="codigo" value="{{ asignatura.codigo }}" required><br>
+        <label for="nombre">Nombre:</label>
+        <input type="text" name="nombre" value="{{ asignatura.nombre }}" required><br>
+        <input type="submit" value="Guardar Cambios">
+    </form>
+    
+    <h2>Acciones de Asignatura</h2>
+    <ul>
+        <li><a href="" class="btn btn-danger">Eliminar Asignatura</a></li>
+        <li><a href="" class="btn btn-info">Ver Alumnos de Asignatura</a></li>
+    </ul>
+    
+    <h2>Inscribir Alumno</h2>
+    <form method="post" action="">
+        {% csrf_token %}
+        <label for="nombre_alumno">Nombre:</label>
+        <input type="text" name="nombre" required><br>
+        <label for="apellido_paterno">Apellido Paterno:</label>
+        <input type="text" name="apellido_paterno" required><br>
+        <label for="apellido_materno">Apellido Materno:</label>
+        <input type="text" name="apellido_materno" required><br>
+        <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
+        <input type="date" name="fecha_nacimiento" required><br>
+        <input type="submit" value="Inscribir Alumno">
+    </form>
+</body>
+</html>
+
+
