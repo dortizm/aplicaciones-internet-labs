@@ -11,6 +11,10 @@ services:
       context: .
     networks:
       - internal
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
   nginx:
     build: ./nginx
     volumes:
@@ -19,6 +23,16 @@ services:
       - "8080:80"
     depends_on:
       - django_gunicorn
+    networks:
+      - internal
+  
+  db:
+    image: postgres:12
+    container_name: django_db
+    environment: 
+      - POSTGRES_DB=django_db
+      - POSTGRES_USER=django_user
+      - POSTGRES_PASSWORD=<PASSWORD>
     networks:
       - internal
 
