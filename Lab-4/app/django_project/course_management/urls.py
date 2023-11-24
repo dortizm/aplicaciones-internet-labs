@@ -1,7 +1,10 @@
-from django.urls import path
+from django.urls import path 
+from .views import now_playing_movies, index
 
-from . import views
+app_name = "movies"
 
 urlpatterns = [
-    path('', views.index, name="index"),
+    path ('', index, name ='index'),
+
+    path('now_playing_movies/', now_playing_movies, name='now_playing_movies')
 ]
