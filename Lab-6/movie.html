@@ -9,7 +9,9 @@
             var self = this;
             self.movie = {};
 
-            var movieId = $location.search().movieId;
+            //var movieId = $location.search().movieId;
+            const urlParams = new URLSearchParams(window.location.search);
+            const movieId = urlParams.get('movieId');
             if (movieId) {
                 $http.get(`https://api.themoviedb.org/3/movie/${movieId}?api_key=c4ab6bd505b68822b549cd53ec9fe2bc&language=es-ES`)
                 .then(function(response) {
