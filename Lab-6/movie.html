@@ -1,3 +1,28 @@
-<h2>Movie</h2>
+<!DOCTYPE html>
+<html ng-app="movieApp">
+<head>
+    <title>Detalles de la Pelicula</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
+    <script>
+        angular.module('movieApp', [])
+        .controller('MovieDetailsController', ['$http', '$scope', '$location', function($http, $scope, $location) {
+            var self = this;
+            self.movie = {};
 
-<br><br>{{movieid}}
+            var movieId = $location.search().movieId;
+            if (movieId) {
+                $http.get(`https://api.themoviedb.org/3/movie/${movieId}?api_key=c4ab6bd505b68822b549cd53ec9fe2bc&language=es-ES`)
+                .then(function(response) {
+                    self.movie = response.data;
+                });
+            }
+        }]);
+    </script>
+</head>
+<body ng-controller="MovieDetailsController as ctrl">
+    <h1>Detalles de la Película</h1>
+    <div ng-if="ctrl.movie">
+        <h2>{{ ctrl.movie.original_title }}</h2>
+    </div>
+</body>
+</html>

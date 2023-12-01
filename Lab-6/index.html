@@ -1,55 +1,66 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="movieApp">
 <head>
+    <title>Películas</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
+    <script>
+        angular.module('movieApp', [])
+        .controller('MainController', ['$http', function($http) {
+            var self = this;
+            self.genres = [];
+            self.movies = [];
+            self.selectedGenre = null;
 
-<meta chrset="UTF 8">
-<title>Movies</title>
-<link rel="stylesheet" href="css/bootstrap.css"/>
+            $http.get('https://api.themoviedb.org/3/genre/movie/list?api_key=c4ab6bd505b68822b549cd53ec9fe2bc&language=es-ES')
+            .then(function(response) {
+                self.genres = response.data.genres;
+            });
+
+            self.fetchMovies = function() {
+                if(self.selectedGenre) {
+                    $http.get(`https://api.themoviedb.org/3/discover/movie?api_key=c4ab6bd505b68822b549cd53ec9fe2bc&with_genres=${self.selectedGenre.id}&language=es-ES`)
+                    .then(function(response) {
+                        self.movies = response.data.results;
+                    });
+                }
+            };
+        }]);
+    </script>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
 </head>
-<body ng-app="sampleApp">
+<body ng-controller="MainController as ctrl">
+    <h1>Selector de Generos de Peliculas</h1>
+    <form>
+        <select ng-model="ctrl.selectedGenre" ng-options="genre.name for genre in ctrl.genres" ng-change="ctrl.fetchMovies()">
+            <option value="">Seleccione un genero</option>
+        </select>
+    </form>
 
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
-<script src="lib/bootstrap.js"></script>
-
-<h1> Movies</h1>
-<table class="table table-striped">
-<thead>
-<tr> <th>#</th><th>Ejemplo</th><th>Description</th><th></th> </tr> </thead>
-<tbody>
-<tr>
-<td>l</td><td>l</td><td>Movie 1</td>
-<td><a href="#!Movie/1">Movie details</a></td>
-</tr>
-<tr>
-<td>2</td><td>2</td><td>Movie 2</td>
-<td><a href="#!Movie/2">Movie details</a></td>
-</tr>
-<tr>
-<td>3</td><td>3</td><td>Movie 3</td>
-<td><a href="#!Movie/3">Movie details</a></td>
-</tr>
-</tbody>
-</table>
-
-<div ng-view></div>
-<script>
-var sampleApp = angular.module('sampleApp',['ngRoute']);
-
-sampleApp.config(
-function($routeProvider){
-$routeProvider.
-when('/Movie/:movieId',{
-templateUrl : 'movie.html',
-controller: 'AngularController'
-})
-});
-
-sampleApp.controller('AngularController',function($scope,$routeParams) {
-
-$scope.movieid=$routeParams.MovieId
-
-});
-</script>
+    <table>
+        <tr>
+            <th>Titulo</th>
+            <th>Descripcion</th>
+        </tr>
+        <tr ng-repeat="movie in ctrl.movies">
+            <td><a href="movie.html?movieId={{ movie.id }}">{{ movie.title }}</a></td>
+            <td>{{ movie.overview }}</td>
+        </tr>        
+        </tr>
+    </table>
 </body>
 </html>
