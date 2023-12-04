@@ -8,6 +8,7 @@
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             // Referencias a elementos HTML
@@ -20,17 +21,18 @@
                     url: 'http://api.filmon.com/api/vod/genres',
                     method: 'GET',
                     success: function(response) {
-                        // Limpia el select antes de agregar nuevos géneros
-                        genreSelect.empty();
-
-                        // Agrega opciones al select con los géneros obtenidos
-                        for (var i = 0; i < response.length; i++) {
-                            var genre = response[i];
-                            genreSelect.append('<option value="' + genre.id + '">' + genre.name + '</option>');
+                        console.log(response); // Agrega este console.log
+                        genreSelect.html(''); // Limpiar las opciones existentes
+                    
+                        if (Array.isArray(response)) {
+                            // Agregar nuevas opciones al select con los géneros obtenidos
+                            $.each(response, function(index, genre) {
+                                genreSelect.append('<option value="' + genre.id + '">' + genre.name + '</option>');
+                                console.log("vista",response.data.response);
+                            });
+                        } else {
+                            console.error('La respuesta de la API no es un array válido:', response);
                         }
-                    },
-                    error: function(error) {
-                        console.error('Error al cargar géneros:', error);
                     }
                 });
             }
@@ -49,7 +51,7 @@
 
                         // Agrega filas a la tabla con la información de las películas
                         for (var i = 0; i < response.length; i++) {
-                            var movie = response[i];
+                            var movie = response.data.response;
                             movieTable.append('<tr><td>' + movie.title + '</td><td>' + movie.description + '</td><td><img src="' + movie.image + '" style="width:50px; height:75px;"></td><td><a href="' + movie.details_link + '">Detalles</a></td></tr>');
                         }
                     },
@@ -81,8 +83,10 @@
             <h3>Movies</h3>
             <form action="">
                 <select name="genres" id="genres">
+                    {%for generos in generos%}
                     
-                    <option value="" selected>-- Seleccione un género --</option>
+                    <option value="{{generos.slug}}" selected>-- Seleccione un género --</option>
+                    {%endfor%}
                 </select>
             </form>
             <table class="table table-striped">
