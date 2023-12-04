@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+        <title>Aplicaciones de Internet</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href='{% static "css/bootstrap.min.css" %}' type="text/css" />
+        <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+        <script type="text/javascript">
+
+        </script>
+    </head>
+<body>
+    <div class="container">
+        <div class="row">
+            <img src="{% static 'images/userena.svg' %}" class="rounded" style="width:200px"/>
+            <h1>Aplicaciones de Internet</h1>
+            <h3>Movies</h3>
+            <p></p>
+            <form action="">
+                <select  name="genres" id="genres" onchange="actualizar(this)">
+                {% for genero in generos%}
+                    <option value="{{genero.name}}">{{genero.name}}</option> 
+                {%endfor%}
+            </select>
+            </form>
+            <table class="table table-striped" id="tablaprueba">
+                <thead class="thead-dark">
+                    <tr>
+                        <td>Imagen</td>
+                        <td>Nombre</td>
+                        <td>Descripción</td>
+                        <td>Detalles</td>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+    <script>
+        var valor = '';
+        function actualizar(objeto){
+            valor = objeto.value.toLowerCase();
+            $( ".fila" ).remove(); //Eliminamos la fila
+            $.ajax({ 
+                url: 'http://api.filmon.com/api/vod/search?genre='+valor,
+                type: 'GET',
+                async: true,
+                dataType: 'json',
+                success: function(res) {
+                    
+                    res.response.forEach((peli)=> 
+                    $('#tablaprueba > tbody:last-child').append('<tr class="fila"><td><img src="'+peli.poster.url+'" width="150" height="200"/></td><td>'+peli.title+'</td><td>'+peli.description+'</td><td>'+peli.meta_description+'</td></tr>')
+                    );
+                }
+            });
+        }
+        function muestraerror(){    
+            alert("Error");
+        }
+    </script>
+</body>
+</html>
