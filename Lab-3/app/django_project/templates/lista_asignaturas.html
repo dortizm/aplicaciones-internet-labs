@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <title>Lista de Asignaturas</title>
+</head>
+<body>
+    <h1>Lista de Asignatura</h1>
+    <ul>
+        {%for asignatura in asignaturas %}
+            <li>{{asignatura.codigo}} - {{asignatura.nombre}}</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'crear_asignatura' %}" class="btn btn-primary">Crear Asignatura</a>
+</body>
+</html>
+                   
