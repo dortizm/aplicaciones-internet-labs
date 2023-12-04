@@ -1,5 +1,6 @@
 from django.shortcuts import render
-import requests
+import requests 
+from .services import generate_request
 
 def index(request):
     # Obtén el género seleccionado 
@@ -18,4 +19,4 @@ def index(request):
         return render(request, 'error.html', {'error_message': f'Error al obtener datos de la API: {str(e)}'})
 
   
-    return render(request, 'index.html', {'movie_data': movie_data})
+    return render(request, 'index.html', {'generos': generate_request})
