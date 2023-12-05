@@ -1,0 +1,30 @@
+<!-- app.component.html -->
+<div>
+  <form (ngSubmit)="onFormSubmit()">
+    <label for="genreSelector">Seleccione un género:</label>
+    <select id="genreSelector" [(ngModel)]="selectedGenre" (change)="onGenreSelected($event)">
+      <option *ngFor="let slug of genres" [value]="slug">{{ slug }}</option>
+    </select>
+    <button type="submit">Buscar</button>
+  </form>
+
+  <table class="styled-table">
+    <thead>
+      <tr>
+        <th>Imagen</th>
+        <th>Titulo</th>
+        <th>Descripcion</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of responseData">
+        <td><img *ngIf="item.poster && item.poster.url" [src]="item.poster.url" alt="Poster Image" class="table-image"></td>
+        <td>{{ item.title }}</td>
+        <td>{{ item.description }}</td>
+        <td><button (click)="openModal(item)">Ver Detalles</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
