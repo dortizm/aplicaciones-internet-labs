@@ -1,7 +1,7 @@
 from django.urls import path
-
-from . import views
+from .views import index, get_movies_by_genre
 
 urlpatterns = [
-    path('', views.index, name="index"),
+    path('', index, name="index"),
+    path('get_movies/<int:genre_id>/', get_movies_by_genre, name='get_movies_by_genre'),
 ]

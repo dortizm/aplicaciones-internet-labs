@@ -2,44 +2,45 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-        <title>Aplicaciones de Internet</title>
-        <meta charset="utf-8">
-        <link rel="stylesheet" href='{% static "css/bootstrap.min.css" %}' type="text/css" />
-        <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-        <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
-        <script type="text/javascript">
-            
-        </script>
-    </head>
+    <title>Aplicaciones de Internet</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href='{% static "css/bootstrap.min.css" %}' type="text/css" />
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+</head>
 <body>
     <div class="container">
         <div class="row">
             <img src="{% static 'images/userena.svg' %}" class="rounded" style="width:200px"/>
             <h1>Aplicaciones de Internet</h1>
             <h3>Movies</h3>
-            <form action="">
-                <select name="genres" id="genres" >
-                        <option value=""></option>
+            <form>
+                <select name="genres" id="genres">
+                    <option value="">Seleccione un género</option>
+                    <option value="sports">Deportes</option>
+                    <option value="drama">Drama</option>
+                    <option value="action">Acción</option>
+                    <option value="comedy">Comedia</option>
+                    <option value="romance">Romance</option>
+                    <option value="thriller">Suspenso</option>
                 </select>
             </form>
-            <table class="table table-striped">
-                <thead class="thead-dark">
-                    <tr>
-                        <td>Nombre</td>
-                        <td>Descripción</td>
-                        <td>Imagen</td>
-                        <td>detalles</td>
-                    </tr>
-                </thead>
-                <tbody>
-                        <tr>                   
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+            <div id="moviesTableContainer">
+                <table class="table table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <td>Nombre</td>
+                            <td>Descripción</td>
+                            <td>Imagen</td>
+                            <td>Detalles</td>
                         </tr>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody id="moviesTableBody"> 
+                        <!-- Aquí se insertarán las filas de películas -->
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </body>
